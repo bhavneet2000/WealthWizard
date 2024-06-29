@@ -1,0 +1,26 @@
+[
+    {
+        "word": "budget",
+        "hint": "A plan for managing income and expenses."
+    },
+    {
+        "word": "investment",
+        "hint": "The action of putting money into financial schemes, shares, or property with the expectation of achieving a profit."
+    },
+    {
+        "word": "interest",
+        "hint": "The cost of borrowing money, usually expressed as a percentage."
+    },
+    {
+        "word": "dividend",
+        "hint": "A sum of money paid regularly by a company to its shareholders out of its profits."
+    },
+    {
+        "word": "mortgage",
+        "hint": "A loan used to purchase real estate, typically repaid with interest over a set period."
+    },
+    {
+        "word": "equity",
+        "hint": "The value of the shares issued by a company, or the value of an owner's interest in a property, after deducting liabilities."
+    }
+]

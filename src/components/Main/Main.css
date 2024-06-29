@@ -1,0 +1,124 @@
+.main {
+  flex: 1;
+  min-height: 100vh;
+  padding-bottom: 15vh;
+}
+
+.main .nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 22px;
+  padding: 20px;
+  color: #585858;
+}
+
+.main .nav img {
+  width: 30px;
+  border-radius: 50%;
+}
+
+.main-container {
+  max-width: 900px;
+  margin: auto;
+}
+
+.main .chat-history {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-item {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-prompt {
+  display: flex;
+  justify-content: flex-end; /* Align to the right */
+  align-items: center;
+  margin-left: auto; /* Push to the right */
+}
+
+.chat-response {
+  display: flex;
+  align-items: center;
+}
+
+.chat-prompt img,
+.chat-response img {
+  width: 30px;
+  border-radius: 50%;
+}
+
+.chat-prompt,
+.chat-response {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chat-prompt img,
+.chat-response img {
+  width: 30px;
+  border-radius: 50%;
+}
+.bg-blue-900 {
+  background-color: #1e3a8a; /* Tailwind's blue-900 color */
+}
+
+.chat-prompt p,
+.chat-response p {
+  background-color: #faf8ff;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 16px;
+  color: #585858;
+  max-width: 90%; /* Limit width to prevent overflow */
+  word-wrap: break-word; /* Ensure long prompts wrap */
+}
+.main-bottom {
+  width: 100%;
+  max-width: 900px;
+  padding: 0px 20px;
+  margin: auto;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background-color: #f0f4f9;
+  padding: 10px 20px;
+  border-radius: 50px;
+}
+
+.search-box img {
+  width: 24px;
+  cursor: pointer;
+}
+
+.search-box input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 8px;
+  font-size: 18px;
+}
+
+.search-box div {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.main .bottom-info {
+  font-size: 13px;
+  margin: 15px auto;
+  text-align: center;
+  font-weight: 300;
+}

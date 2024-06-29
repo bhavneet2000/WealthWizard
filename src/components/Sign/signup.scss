@@ -1,0 +1,108 @@
+@import url("https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&display=swap");
+* {
+  font-family: "Cabin", sans-serif;
+}
+#img-logos {
+  width: 65%;
+  height: 80%;
+  margin-left: 100px;
+  margin-top: 50px;
+}
+.column {
+  display: flex;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(180deg, #c4d3e1 0%, #7eb3e8 38.91%, #9fc9f2 100%);
+  .stack {
+    display: flex;
+    .stack1 {
+      display: flex;
+      justify-items: end;
+      padding-left: 20px;
+      img {
+        width: 90%;
+        height: 100%;
+        top: 144px;
+        left: -163px;
+      }
+    }
+    .column1 {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+      width: 547px;
+      height: auto;
+      margin-bottom: 50px;
+
+      // height: max-content;
+      border-radius: 32.68px;
+      background: rgba(198, 218, 239, 1);
+      .top-box {
+        gap: 5.67px;
+        display: flex;
+        padding-right: 25px;
+        flex-direction: column;
+        align-items: center;
+        h3 {
+          margin: 0%;
+          width: 200px;
+          height: 80px;
+          font-family: Poppins;
+          font-size: 53px;
+          font-weight: 500;
+          line-height: 80px;
+          letter-spacing: 0em;
+
+          color: rgba(51, 51, 51, 1);
+        }
+        p {
+          margin-top: 0%;
+          padding-top: 20px;
+          gap: 13.33px;
+          color: #666666;
+        }
+      }
+      .input-form {
+        margin: 0 30px;
+        color: #666666;
+
+        form {
+          padding-bottom: 30px;
+          gap: 7.33px;
+
+          #name {
+            display: flex;
+            align-self: flex-start;
+            border-radius: 16px;
+            border: 1.33px solid rgba(102, 102, 102, 0.35);
+          }
+          #emil1 {
+            width: 90%;
+            height: 50px;
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 16px;
+            border: 1.33px solid rgba(102, 102, 102, 0.35);
+            padding-left: 15px;
+          }
+          #pwd1 {
+            width: 90%;
+            height: 50px;
+            border-radius: 16px;
+            font-size: 15px;
+            border: 1.33px solid rgba(102, 102, 102, 0.35);
+            margin-bottom: 30px;
+            padding-left: 15px;
+          }
+          #sub_button {
+            width: 90%;
+            height: 50px;
+            border-radius: 42.67px;
+            opacity: 0.25px;
+          }
+        }
+      }
+    }
+  }
+}

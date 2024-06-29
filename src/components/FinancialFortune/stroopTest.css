@@ -1,0 +1,159 @@
+.stroop-test {
+  text-align: center;
+  font-size: 1.5em;
+  padding-bottom: 50px;
+}
+
+.instructions {
+  text-align: center;
+  font-size: 1.2em;
+  padding: 10px 20px; /* Reduced padding */
+  background-color: #f0f8ff; /* Light blue background */
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  margin: 20px auto; /* Reduced margin to bring it closer */
+  max-width: 400px; /* Maintain width */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.instructions h1 {
+  font-size: 1.8em; /* Slightly smaller font size */
+  margin-bottom: 10px;
+  color: #4b0082; /* Purple color */
+}
+
+.instructions ul {
+  text-align: left;
+  list-style-type: disc;
+  margin: 10px auto; /* Reduced margin */
+  padding: 0;
+  max-width: 350px;
+  color: #333;
+}
+
+.instructions ul li {
+  margin-bottom: 5px; /* Reduced margin-bottom to decrease height */
+}
+
+.instructions .high {
+  font-size: 1em; /* Smaller font size */
+  font-weight: bold;
+  padding: 5px 10px; /* Smaller padding */
+  background-color: #008CBA; /* Blue */
+  color: white;
+  border: none;
+  border-radius: 3px; /* Smaller border-radius */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.instructions .high:hover {
+  background-color: #005f73; /* Darker shade of blue */
+}
+
+.head {
+  text-align: center;
+  font-size: 2em;
+  font-family: Arial, sans-serif;
+  background-color: #aeb3c3;
+  padding: 20px;
+  border: 2px solid #333;
+  transition: color 0.5s ease, transform 0.5s ease;
+}
+
+.head:hover {
+  color: rgb(27, 4, 77);
+  transform: scale(1.1);
+}
+
+.background {
+  width: 100%;
+  height: 100vh;
+  background-image: url('https://res.cloudinary.com/your_cloud_name/image/upload/v1629807330/your_image.jpg');
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.high {
+  font-size: 1.2em; /* Slightly smaller font size */
+  font-weight: bold;
+  padding: 10px 20px;
+  background-color: #4b0082; /* Purple */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.high:hover {
+  background-color: #6a5acd; /* Lighter shade of purple */
+}
+
+.test-div {
+  background-color: aliceblue;
+  padding: 20px;
+  border: 2px solid #ccc;
+  margin: 20px;
+  border-radius: 10px;
+}
+
+.current {
+  text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bolder;
+  font-size: 4rem;
+  margin-top: 20px;
+}
+
+.btns {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.next {
+  width: 150px;
+  height: 40px;
+  background-color: #007bff; /* Blue */
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.next:hover {
+  background-color: #0056b3; /* Darker shade of blue on hover */
+}
+
+.btn-test {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.start,
+.submit {
+  width: 120px;
+  height: 50px;
+  margin: 0 10px;
+  background-color: #4b0082; /* Purple */
+  color: #ffffff; /* Text color white */
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.start:hover,
+.submit:hover {
+  background-color: #6a5acd; /* Lighter shade of purple */
+}

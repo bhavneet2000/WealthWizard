@@ -53,9 +53,8 @@ const Header = () => {
 
       {/* Sidebar */}
       <aside
-        className={`bg-blue-900 text-white h-full w-56 fixed top-0 left-0 z-50 ${
-          isMenuOpen ? "transform translate-x-0" : "transform -translate-x-full"
-        }`}
+        className={`bg-blue-900 text-white h-full w-56 fixed top-0 left-0 z-50 ${isMenuOpen ? "transform translate-x-0" : "transform -translate-x-full"
+          }`}
       >
         <div className="p-6">
           <h1 className="text-xl font-bold mb-4">Menu</h1>
@@ -118,7 +117,7 @@ const Header = () => {
                   onClick={handleMenuClose}
                 >
                   <FontAwesomeIcon icon={faMoneyBillAlt} className="mr-3" />
-                  Financial Health Assessment Bot
+                  WizBot
                 </Link>
               </li>
               <li>

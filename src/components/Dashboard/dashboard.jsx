@@ -85,7 +85,7 @@ function Dashboard() {
                 className="flex items-center py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
               >
                 <FontAwesomeIcon icon={faMoneyBillAlt} className="mr-3" />
-                Financial Health Assessment Bot
+                WizBot
               </Link>
             </li>
             <li>

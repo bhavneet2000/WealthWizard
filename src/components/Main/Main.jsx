@@ -99,7 +99,7 @@ const MainBot = () => {
       <Header />
       <div className="main">
         <div className="nav">
-          <p className="  font-bold text-3xl">Financial Health Assistant</p>
+          <p className="  font-bold text-3xl">WizBot</p>
           <img src={assets.user_icon} alt="user icon" />
         </div>
 
@@ -158,7 +158,7 @@ const MainBot = () => {
               </div>
             </div>
             <p className="bottom-info">
-              FINLEY may display inaccurate information, including about people,
+              Wizmo may display inaccurate information, including about people,
               so double-check its responses. Your privacy and Gemini Apps.
             </p>
             {loading && <p className="loading-indicator">Loading...</p>}

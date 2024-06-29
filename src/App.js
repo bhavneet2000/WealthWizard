@@ -6,6 +6,7 @@ import Welcome from "./components/Welcome";
 import Login from "./components/Login/Login";
 import Register from "./components/Sign/signup";
 import Dashboard from "./components/Dashboard/dashboard";
+import NewDashboard from "./components/Dashboard/newDashboard";
 import Profile from "./components/Profile/profile";
 import Juniors from "./components/Juniors/juniors";
 import News from "./components/News/news";
@@ -54,6 +55,10 @@ function App() {
           <Route path="/signup" element={<Register />} />
           <Route
             path="/dashboard"
+            element={<ProtectedRoute element={NewDashboard} />}
+          />
+          <Route
+            path="/planning"
             element={<ProtectedRoute element={Dashboard} />}
           />
           <Route

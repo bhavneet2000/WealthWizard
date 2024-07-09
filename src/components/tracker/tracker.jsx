@@ -26,10 +26,13 @@ const COLORS = [
 
 const Tracker = () => {
   const [description, setDescription] = useState("");
-  const [amount, setAmount] = useState(null);
+  const [amount, setAmount] = useState("");
+  const [date, setDate] = useState("");
   const [transactions, setTransactions] = useState([]);
   const [editId, setEditId] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -63,6 +66,7 @@ const Tracker = () => {
       id: Date.now(),
       description,
       amount: parseFloat(amount),
+      date,
     };
     let updatedTransactions;
     if (editId) {
@@ -77,12 +81,14 @@ const Tracker = () => {
     await saveTransactions(updatedTransactions);
     setDescription("");
     setAmount("");
+    setDate("");
   };
 
   const handleEdit = (transaction) => {
     setEditId(transaction.id);
     setDescription(transaction.description);
     setAmount(transaction.amount);
+    setDate(transaction.date ? transaction.date.substring(0, 10) : "");
   };
 
   const handleDelete = async (id) => {
@@ -91,7 +97,20 @@ const Tracker = () => {
     await saveTransactions(updatedTransactions);
   };
 
-  const groupedData = transactions.reduce((acc, transaction) => {
+  const filterTransactionsByMonthAndYear = (transactions, month, year) => {
+    return transactions.filter((transaction) => {
+      const date = new Date(transaction.date);
+      return date.getMonth() === month && date.getFullYear() === year;
+    });
+  };
+
+  const filteredTransactions = filterTransactionsByMonthAndYear(
+    transactions,
+    selectedMonth,
+    selectedYear
+  );
+
+  const groupedData = filteredTransactions.reduce((acc, transaction) => {
     const existing = acc.find(
       (item) => item.description === transaction.description
     );
@@ -118,30 +137,61 @@ const Tracker = () => {
             <h2 className="text-3xl font-bold text-center mb-8 text-indigo-700">
               Transactions
             </h2>
+            <div className="flex justify-between mb-5">
+              <div>
+                <label htmlFor="month">Month:</label>
+                <select
+                  id="month"
+                  value={selectedMonth}
+                  onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
+                >
+                  {Array.from({ length: 12 }, (_, i) => (
+                    <option key={i} value={i}>
+                      {new Date(0, i).toLocaleString("default", {
+                        month: "long",
+                      })}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label htmlFor="year">Year:</label>
+                <input
+                  id="year"
+                  type="number"
+                  value={selectedYear}
+                  onChange={(e) => setSelectedYear(parseInt(e.target.value))}
+                />
+              </div>
+            </div>
             <table className="w-full text-left mb-8">
               <thead>
                 <tr className="flex justify-between border-b-2 border-indigo-200">
-                  <th className="text-lg font-semibold w-1/3 px-2 py-3">
+                  <th className="text-lg font-semibold w-1/4 px-2 py-3">
                     Description
                   </th>
-                  <th className="text-lg font-semibold w-1/3 px-2 py-3">
+                  <th className="text-lg font-semibold w-1/4 px-2 py-3">
                     Amount
                   </th>
-                  <th className="text-lg font-semibold w-1/3 px-2 py-3">
+                  <th className="text-lg font-semibold w-1/4 px-2 py-3">
+                    Date
+                  </th>
+                  <th className="text-lg font-semibold w-1/4 px-2 py-3">
                     Action
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {Array.isArray(transactions) &&
-                  transactions.map((t) => (
+                {Array.isArray(filteredTransactions) &&
+                  filteredTransactions.map((t) => (
                     <tr
                       key={t.id}
                       className="flex justify-between border-b border-gray-200"
                     >
-                      <td className="py-3 px-2 w-1/3">{t.description}</td>
-                      <td className="py-3 px-2 w-1/3">{t.amount}</td>
-                      <td className="py-3 px-2 w-1/3 flex justify-center items-center">
+                      <td className="py-3 px-2 w-1/4">{t.description}</td>
+                      <td className="py-3 px-2 w-1/4">{t.amount}</td>
+                      <td className="py-3 px-2 w-1/4">{t.date}</td>
+                      <td className="py-3 px-2 w-1/4 flex justify-center items-center">
                         <button
                           className="bg-yellow-400 hover:bg-yellow-500 text-white px-4 py-2 rounded mr-2"
                           onClick={() => handleEdit(t)}
@@ -177,6 +227,12 @@ const Tracker = () => {
                   placeholder="Amount"
                   onChange={(e) => setAmount(e.target.value)}
                   value={amount}
+                />
+                <input
+                  type="date"
+                  className="border border-indigo-300 rounded-md w-full px-3 py-2 mb-4"
+                  onChange={(e) => setDate(e.target.value)}
+                  value={date}
                 />
                 <button
                   className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded"

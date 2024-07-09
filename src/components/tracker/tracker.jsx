@@ -111,7 +111,7 @@ const Tracker = () => {
       <Header />
       <div className="bg-teal-50 min-h-screen flex flex-col justify-center items-center py-10">
         <h1 className="text-4xl font-bold text-center mb-10 text-blue-800 overflow-hidden ">
-          Personal Finance Tracker
+          Finance Tracker
         </h1>
         <div className="container mx-auto px-5">
           <div className="bg-white rounded-lg shadow-lg p-10 mb-10">

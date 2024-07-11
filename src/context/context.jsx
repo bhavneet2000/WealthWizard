@@ -11,7 +11,15 @@ const ContextProvider = (props) => {
   const [recognition, setRecognition] = useState(null);
 
   const formatResponse = (response) => {
-    return response.replace(/\*/g, "\n"); // Replace asterisks with new line characters
+    return response.replace(/\*/g, "\n"); // Replace asterisks with newline characters
+  };
+
+  const newFormatResponse = (response) => {
+    return response
+      .replace(/;/g, "; <br/>")
+      .replace(/:/g, ": <br/>")
+      .replace(/(\d+)\./g, "<br/>$1.")
+      .replace(/\*/g, "<br/>");
   };
 
   const initializeRecognition = () => {
@@ -90,6 +98,8 @@ const ContextProvider = (props) => {
     try {
       const response = await runChat(prompt);
       const formattedResponse = formatResponse(response);
+      const newFormattedResponse = newFormatResponse(response);
+
       setChatHistory((prev) => {
         const updatedHistory = [...prev];
         updatedHistory[updatedHistory.length - 1].response = formattedResponse;
@@ -195,6 +205,8 @@ const ContextProvider = (props) => {
     handleStopSpeaking,
     startRecognition,
     stopRecognition,
+    formatResponse,
+    newFormatResponse,
   };
 
   return (

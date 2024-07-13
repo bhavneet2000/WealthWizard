@@ -22,6 +22,7 @@
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.3",
     "classnames": "^2.3.2",
+    "crypto-js": "^4.2.0",
     "dotenv": "^16.4.5",
     "emailjs-com": "^3.2.0",
     "example": "^0.0.0",

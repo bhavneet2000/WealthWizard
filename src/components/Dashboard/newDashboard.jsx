@@ -19,7 +19,6 @@ function NewDashboard() {
     if (!isAuthenticated) {
         return <Navigate to="/login" replace />;
     }
-
     return (
         <div className="flex h-screen bg-teal-50">
             <Sidebar logout={logout} />

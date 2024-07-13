@@ -139,3 +139,8 @@
   font-size: 16px;
   color: #888;
 }
+.mic-active {
+  background-color: rgba(0, 0, 0, 0.1);
+  filter: blur(1px);
+  cursor: not-allowed;
+}

@@ -55,7 +55,10 @@ const ContextProvider = (props) => {
     setLoading(true);
     const prompt = input.trim();
 
-    if (!prompt) return;
+    if (!prompt) {
+      setLoading(false);
+      return;
+    }
 
     setChatHistory((prev) => [...prev, { prompt, response: "loading..." }]);
 
@@ -68,7 +71,11 @@ const ContextProvider = (props) => {
         return updatedHistory;
       });
       speakText(formattedResponse); // Speak the response
-      await saveUserQuestion(prompt); // Save the question after sending
+
+      // Save the user question only if it's a new prompt
+      if (prompt !== input.trim()) {
+        await saveUserQuestion(prompt); // Save the question after sending
+      }
     } catch (error) {
       console.error("Error during conversation:", error);
     } finally {
@@ -79,22 +86,48 @@ const ContextProvider = (props) => {
 
   const speakText = (text) => {
     if ("speechSynthesis" in window) {
-      const utterance = new SpeechSynthesisUtterance(text);
+      // Remove emojis from text
+      const emojiRegex =
+        /[\u{1F600}-\u{1F6FF}|\u{1F300}-\u{1F5FF}|\u{1F700}-\u{1F77F}|\u{1F780}-\u{1F7FF}|\u{1F800}-\u{1F8FF}|\u{1F900}-\u{1F9FF}|\u{1FA00}-\u{1FA6F}|\u{1FA70}-\u{1FAFF}|\u{2600}-\u{26FF}|\u{2700}-\u{27BF}|\u{1F100}-\u{1F1FF}|\u{1F200}-\u{1F2FF}|\u{1F300}-\u{1F5FF}|\u{1F600}-\u{1F64F}|\u{1F680}-\u{1F6FF}|\u{1F700}-\u{1F77F}|\u{1F780}-\u{1F7FF}|\u{1F800}-\u{1F8FF}|\u{1F900}-\u{1F9FF}|\u{1FA00}-\u{1FA6F}|\u{1FA70}-\u{1FAFF}|\u{2300}-\u{23FF}|\u{25A0}-\u{25FF}|\u{2700}-\u{27BF}|\u{1F1E0}-\u{1F1FF}|\u{1F300}-\u{1F5FF}|\u{1F600}-\u{1F64F}|\u{1F680}-\u{1F6FF}|\u{1F700}-\u{1F77F}|\u{1F780}-\u{1F7FF}|\u{1F800}-\u{1F8FF}|\u{1F900}-\u{1F9FF}|\u{1FA00}-\u{1FA6F}|\u{1FA70}-\u{1FAFF}|\u{2600}-\u{26FF}|\u{2700}-\u{27BF}|\u{1F100}-\u{1F1FF}|\u{1F200}-\u{1F2FF}|\u{1F300}-\u{1F5FF}|\u{1F600}-\u{1F64F}|\u{1F680}-\u{1F6FF}|\u{1F700}-\u{1F77F}|\u{1F780}-\u{1F7FF}|\u{1F800}-\u{1F8FF}|\u{1F900}-\u{1F9FF}|\u{1FA00}-\u{1FA6F}|\u{1FA70}-\u{1FAFF}]/gu;
+      const cleanText = text.replace(emojiRegex, "");
 
-      // Set the language for Hindi text
-      if (/[\u0900-\u097F]/.test(text)) {
-        utterance.lang = "hi-IN"; // Hindi
-      } else {
-        utterance.lang = "en-US"; // Default to English
-      }
+      const sentences = cleanText.split(/(?<=\.\s)/); // Split text into sentences for better handling
 
-      utterance.onend = () => setIsSpeaking(false);
-      utterance.onerror = (e) => {
-        console.error("Speech synthesis error:", e);
-        setIsSpeaking(false);
+      const speakSentence = (sentence) => {
+        return new Promise((resolve, reject) => {
+          const utterance = new SpeechSynthesisUtterance(sentence);
+
+          // Set the language based on content
+          if (/[\u0900-\u097F]/.test(sentence)) {
+            utterance.lang = "hi-IN"; // Hindi
+          } else {
+            utterance.lang = "en-US"; // Default to English
+          }
+
+          utterance.onend = resolve;
+          utterance.onerror = (e) => {
+            console.error("Speech synthesis error:", e);
+            reject(e);
+          };
+
+          speechSynthesis.speak(utterance);
+        });
       };
-      setIsSpeaking(true);
-      speechSynthesis.speak(utterance);
+
+      const speakAllSentences = async () => {
+        setIsSpeaking(true);
+        try {
+          for (const sentence of sentences) {
+            await speakSentence(sentence);
+          }
+        } catch (error) {
+          console.error("Error speaking sentence:", error);
+        } finally {
+          setIsSpeaking(false);
+        }
+      };
+
+      speakAllSentences();
     } else {
       console.error("Speech synthesis not supported");
     }

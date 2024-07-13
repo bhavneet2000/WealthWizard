@@ -1,5 +1,8 @@
 import React, { createContext, useState, useEffect } from "react";
-import { runChat } from "../components/config/gemini";
+import { runChat } from "../components/config/gemini"; // Adjust the path as needed
+import { getDoc, doc, setDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import { db, auth } from "../utils/firebase"; // Adjust the path as needed
 
 export const context = createContext();
 
@@ -8,209 +11,119 @@ const ContextProvider = (props) => {
   const [chatHistory, setChatHistory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const [recognition, setRecognition] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [questions, setQuestions] = useState([]);
 
-  const formatResponse = (response) => {
-    return response.replace(/\*/g, "\n"); // Replace asterisks with newline characters
-  };
-
-  const newFormatResponse = (response) => {
-    return response
-      .replace(/;/g, "; <br/>")
-      .replace(/:/g, ": <br/>")
-      .replace(/(\d+)\./g, "<br/>$1.")
-      .replace(/\*/g, "<br/>");
-  };
-
-  const initializeRecognition = () => {
-    const recognition = new window.webkitSpeechRecognition();
-    recognition.continuous = true;
-    recognition.interimResults = true;
-    recognition.lang = "en-US"; // Default language
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      setInput(transcript);
-    };
-    recognition.onerror = (event) => {
-      console.error("Speech recognition error:", event.error);
-      stopRecognition();
-    };
-    setRecognition(recognition);
-  };
-
-  const startRecognition = () => {
-    if (recognition) {
-      recognition.lang = "en-US"; // Start with English by default
-      recognition.start();
-    } else {
-      console.error("Speech recognition not initialized.");
-    }
-  };
-
-  const stopRecognition = () => {
-    if (recognition) {
-      recognition.stop();
-    }
-  };
-
-  const handleSpeechInput = () => {
-    return new Promise((resolve, reject) => {
-      if (!recognition) {
-        reject(new Error("Speech recognition not initialized."));
-        return;
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setUserId(user.uid);
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          if (userData.questions) {
+            setQuestions(userData.questions);
+          }
+        }
+      } else {
+        setUserId(null);
+        setQuestions([]);
       }
-
-      recognition.onstart = () => {
-        console.log("Speech recognition started...");
-      };
-
-      recognition.onresult = (event) => {
-        const transcript = event.results[0][1].transcript;
-        resolve(transcript);
-      };
-
-      recognition.onerror = (event) => {
-        reject(event.error);
-      };
-
-      recognition.lang = "hi-IN"; // Change language to Hindi
-      recognition.start();
     });
+
+    return () => unsubscribe();
+  }, []);
+
+  const saveUserQuestion = async (question) => {
+    if (userId) {
+      const userDocRef = doc(db, "users", userId);
+      const userDoc = await getDoc(userDocRef);
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        const updatedQuestions = [...(userData.questions || []), question];
+        await setDoc(
+          userDocRef,
+          { questions: updatedQuestions },
+          { merge: true }
+        );
+        setQuestions(updatedQuestions); // Update local state
+      }
+    }
   };
 
   const onSent = async () => {
     setLoading(true);
-    let prompt;
-    if (input.trim()) {
-      prompt = input.trim();
-    } else {
-      try {
-        prompt = await handleSpeechInput();
-        setInput(prompt);
-      } catch (error) {
-        console.error("Speech recognition error:", error);
-        setLoading(false);
-        return;
-      }
-    }
+    const prompt = input.trim();
+
+    if (!prompt) return;
 
     setChatHistory((prev) => [...prev, { prompt, response: "loading..." }]);
+
     try {
       const response = await runChat(prompt);
-      const formattedResponse = formatResponse(response);
-      const newFormattedResponse = newFormatResponse(response);
-
+      const formattedResponse = response.replace(/\*/g, "\n");
       setChatHistory((prev) => {
         const updatedHistory = [...prev];
         updatedHistory[updatedHistory.length - 1].response = formattedResponse;
         return updatedHistory;
       });
-      speakText(formattedResponse); // Speak the formatted response
+      speakText(formattedResponse); // Speak the response
+      await saveUserQuestion(prompt); // Save the question after sending
     } catch (error) {
       console.error("Error during conversation:", error);
-      setChatHistory((prev) => {
-        const updatedHistory = [...prev];
-        updatedHistory[updatedHistory.length - 1].response =
-          "An error occurred while communicating with the model.";
-        return updatedHistory;
-      });
     } finally {
       setLoading(false);
       setInput("");
     }
   };
 
-  const removeEmojisAndAsterisks = (text) => {
-    return text.replace(
-      /([\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{2B50}-\u{2B55}\u{231A}-\u{23F3}\u{23F0}\u{231B}\u{23F1}-\u{23F2}\u{23E9}-\u{23EF}\u{23F4}-\u{23F7}\u{23F8}-\u{23FA}\u{2B06}\u{2194}-\u{21AA}\u{2B05}\u{2195}-\u{21B7}\u{2B07}\u{21A9}]|\*)/gu,
-      ""
-    );
-  };
-
   const speakText = (text) => {
-    const synthesis = window.speechSynthesis;
-    const voices = synthesis.getVoices();
-    const hindiVoice = voices.find((voice) => voice.lang === "hi-IN");
-    const englishVoice = voices.find((voice) => voice.lang === "en-US");
+    if ("speechSynthesis" in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
 
-    const chunks = text.match(/[\s\S]{1,200}/g); // Split text into chunks of 200 characters
-
-    const setVoice = (utterance, text) => {
-      if (text.match(/[\u0900-\u097F]/)) {
-        if (hindiVoice) {
-          utterance.voice = hindiVoice;
-          utterance.lang = "hi-IN";
-        } else {
-          console.warn("Hindi voice not available, defaulting to English.");
-          utterance.voice = englishVoice;
-          utterance.lang = "en-US";
-        }
+      // Set the language for Hindi text
+      if (/[\u0900-\u097F]/.test(text)) {
+        utterance.lang = "hi-IN"; // Hindi
       } else {
-        utterance.voice = englishVoice;
-        utterance.lang = "en-US";
+        utterance.lang = "en-US"; // Default to English
       }
-    };
 
-    const speakChunks = (chunks, index = 0) => {
-      if (index >= chunks.length) {
+      utterance.onend = () => setIsSpeaking(false);
+      utterance.onerror = (e) => {
+        console.error("Speech synthesis error:", e);
         setIsSpeaking(false);
-        return;
-      }
-
-      const utterance = new SpeechSynthesisUtterance(
-        removeEmojisAndAsterisks(chunks[index])
-      );
-      setVoice(utterance, chunks[index]);
-
-      utterance.onend = () => {
-        speakChunks(chunks, index + 1);
       };
-
-      synthesis.speak(utterance);
-    };
-
-    if (voices.length > 0) {
-      speakChunks(chunks);
+      setIsSpeaking(true);
+      speechSynthesis.speak(utterance);
     } else {
-      synthesis.onvoiceschanged = () => {
-        speakChunks(chunks);
-      };
+      console.error("Speech synthesis not supported");
     }
-
-    setIsSpeaking(true);
   };
 
   const handleStopSpeaking = () => {
-    window.speechSynthesis.cancel();
-    setIsSpeaking(false);
-  };
-
-  useEffect(() => {
-    initializeRecognition();
-    return () => {
-      if (recognition) {
-        recognition.stop();
-      }
-    };
-  }, []);
-
-  const contextValue = {
-    input,
-    setInput,
-    onSent,
-    chatHistory,
-    loading,
-    isSpeaking,
-    speakText,
-    handleStopSpeaking,
-    startRecognition,
-    stopRecognition,
-    formatResponse,
-    newFormatResponse,
+    if (speechSynthesis.speaking) {
+      speechSynthesis.cancel(); // Stop any ongoing speech
+      setIsSpeaking(false);
+    }
   };
 
   return (
-    <context.Provider value={contextValue}>{props.children}</context.Provider>
+    <context.Provider
+      value={{
+        input,
+        setInput,
+        chatHistory,
+        loading,
+        isSpeaking,
+        speakText,
+        handleStopSpeaking,
+        onSent,
+        questions,
+        saveUserQuestion,
+      }}
+    >
+      {props.children}
+    </context.Provider>
   );
 };
 

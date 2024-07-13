@@ -1,27 +1,27 @@
-// firebaseServices.js
-import { db } from "./firebase";
-import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
+import { db } from "./firebase"; // Import Firestore instance
+import { doc, setDoc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 
-// Function to add a question to Firestore
-export const addQuestion = async (userId, question) => {
-  try {
-    await addDoc(collection(db, "questions"), {
-      userId,
-      question,
-      timestamp: new Date(),
-    });
-  } catch (e) {
-    console.error("Error adding document: ", e);
+// Function to get user chat history
+export const getUserChatHistory = async (userId) => {
+  const userDocRef = doc(db, "users", userId);
+  const userDoc = await getDoc(userDocRef);
+  if (userDoc.exists()) {
+    return userDoc.data().chatHistory || [];
+  } else {
+    return [];
   }
 };
 
-// Function to get questions for a user from Firestore
-export const getQuestionsForUser = async (userId) => {
-  const q = query(collection(db, "questions"), where("userId", "==", userId));
-  const querySnapshot = await getDocs(q);
-  let questions = [];
-  querySnapshot.forEach((doc) => {
-    questions.push({ id: doc.id, ...doc.data() });
+// Function to save user chat history
+export const saveUserChatHistory = async (userId, chatHistory) => {
+  const userDocRef = doc(db, "users", userId);
+  await setDoc(userDocRef, { chatHistory }, { merge: true });
+};
+
+// Function to add a single chat to user chat history
+export const addUserChat = async (userId, chat) => {
+  const userDocRef = doc(db, "users", userId);
+  await updateDoc(userDocRef, {
+    chatHistory: arrayUnion(chat),
   });
-  return questions;
 };

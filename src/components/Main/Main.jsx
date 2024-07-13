@@ -14,21 +14,23 @@ const MainBot = () => {
     isSpeaking,
     speakText,
     handleStopSpeaking,
-    formatResponse,
-    newFormatResponse,
+    saveUserQuestion,
   } = useContext(context);
   const chatEndRef = useRef(null);
   const recognition = useRef(null);
 
   const handleSend = () => {
+    // .trim() removes whitespaces ->calls OnSent
     if (input.trim()) {
+      saveUserQuestion(input.trim());
       onSent(input.trim());
       stopRecognition();
     }
   };
 
   const handleInputChange = (e) => {
-    setInput(e.target.value);
+    //handles change between audio and text input ->calls setInput
+    setInput(e.target.value); //mentains when audio input is provided
   };
 
   const handleVoiceInput = () => {
@@ -42,7 +44,7 @@ const MainBot = () => {
     if (!recognition.current) {
       recognition.current = new window.webkitSpeechRecognition();
       recognition.current.continuous = true;
-      recognition.current.interimResults = true;
+      recognition.current.interimResults = true; // Capture interim results
       recognition.current.lang = "en-US";
 
       recognition.current.onresult = (event) => {
@@ -57,8 +59,10 @@ const MainBot = () => {
           }
         }
 
+        // Use finalTranscript or interimTranscript based on your application's logic
         setInput(finalTranscript.trim() || interimTranscript.trim());
 
+        // Optionally, you can automatically send the input after voice recognition
         if (finalTranscript.trim() || interimTranscript.trim()) {
           handleSend();
         }
@@ -78,7 +82,6 @@ const MainBot = () => {
       }
     }, 3000);
   };
-
   const stopRecognition = () => {
     if (recognition.current) {
       recognition.current.stop();
@@ -98,7 +101,7 @@ const MainBot = () => {
       <Header />
       <div className="main">
         <div className="nav">
-          <p className="font-bold text-3xl">WizBot</p>
+          <p className="  font-bold text-3xl">WizBot</p>
           <img src={assets.user_icon} alt="user icon" />
         </div>
 
@@ -117,7 +120,7 @@ const MainBot = () => {
                       __html:
                         loading && index === chatHistory.length - 1
                           ? "loading..."
-                          : newFormatResponse(chat.response), // Use newFormatResponse for formatted display
+                          : chat.response,
                     }}
                   ></p>
                   <button
@@ -150,12 +153,7 @@ const MainBot = () => {
               />
               <div>
                 <img src={assets.gallery_icon} alt="" />
-                <img
-                  src={assets.mic_icon}
-                  alt=""
-                  onClick={handleVoiceInput}
-                  className="mic-icon"
-                />
+                <img src={assets.mic_icon} alt="" onClick={handleVoiceInput} />
                 {input && (
                   <img onClick={handleSend} src={assets.send_icon} alt="" />
                 )}

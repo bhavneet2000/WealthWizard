@@ -3,6 +3,7 @@ import { runChat } from "../components/config/gemini"; // Adjust the path as nee
 import { getDoc, doc, setDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { db, auth } from "../utils/firebase"; // Adjust the path as needed
+import { decryptData, encryptData } from "../utils/decryptionUtils";
 
 export const context = createContext();
 
@@ -40,7 +41,10 @@ const ContextProvider = (props) => {
       const userDoc = await getDoc(userDocRef);
       if (userDoc.exists()) {
         const userData = userDoc.data();
-        const updatedQuestions = [...(userData.questions || []), question];
+        const encryptedQn = await encryptData(question);
+        const decryptedData = await decryptData(encryptedQn);
+        console.log("Decrypted Data", decryptedData);
+        const updatedQuestions = [...(userData.questions || []), encryptedQn];
         await setDoc(
           userDocRef,
           { questions: updatedQuestions },

@@ -2,28 +2,35 @@
   flex: 1;
   min-height: 100vh;
   padding-bottom: 15vh;
+  background: linear-gradient(135deg, #f0f4f9, #ffffff);
+  color: #585858;
 }
 
-.main .nav {
+.nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-size: 22px;
   padding: 20px;
-  color: #585858;
+  background: #f0f4f9;
+  border-bottom: 1px solid #e0e0e0;
 }
 
-.main .nav img {
-  width: 30px;
+.nav img {
+  width: 40px;
   border-radius: 50%;
 }
 
 .main-container {
   max-width: 900px;
   margin: auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.main .chat-history {
+.chat-history {
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -35,22 +42,9 @@
   flex-direction: column;
 }
 
-.chat-prompt {
-  display: flex;
-  justify-content: flex-end; /* Align to the right */
-  align-items: center;
-  margin-left: auto; /* Push to the right */
-}
-
-.chat-response {
-  display: flex;
-  align-items: center;
-}
-
-.chat-prompt img,
-.chat-response img {
-  width: 30px;
-  border-radius: 50%;
+.chat-prompt.right {
+  justify-content: flex-end;
+  margin-left: auto;
 }
 
 .chat-prompt,
@@ -65,9 +59,6 @@
   width: 30px;
   border-radius: 50%;
 }
-.bg-blue-900 {
-  background-color: #1e3a8a; /* Tailwind's blue-900 color */
-}
 
 .chat-prompt p,
 .chat-response p {
@@ -75,15 +66,34 @@
   padding: 10px;
   border-radius: 10px;
   font-size: 16px;
-  color: #585858;
-  max-width: 90%; /* Limit width to prevent overflow */
-  word-wrap: break-word; /* Ensure long prompts wrap */
+  max-width: 80%;
+  word-wrap: break-word;
 }
+
+.speak-button,
+.stop-button {
+  background-color: #c21a1a;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.speak-button:hover,
+.stop-button:hover {
+  background-color: #c21a1a;
+}
+
 .main-bottom {
   width: 100%;
   max-width: 900px;
-  padding: 0px 20px;
+  padding: 20px;
   margin: auto;
+  background: #f0f4f9;
+  border-top: 1px solid #e0e0e0;
+  border-radius: 0 0 10px 10px;
 }
 
 .search-box {
@@ -91,9 +101,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  background-color: #f0f4f9;
+  background-color: #ffffff;
   padding: 10px 20px;
-  border-radius: 50px;
+  border-radius: 25px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .search-box img {
@@ -116,9 +127,20 @@
   gap: 15px;
 }
 
-.main .bottom-info {
+.bottom-info {
   font-size: 13px;
   margin: 15px auto;
   text-align: center;
   font-weight: 300;
+}
+
+.loading-indicator {
+  text-align: center;
+  font-size: 16px;
+  color: #888;
+}
+.mic-active {
+  background-color: rgba(0, 0, 0, 0.1);
+  filter: blur(1px);
+  cursor: not-allowed;
 }

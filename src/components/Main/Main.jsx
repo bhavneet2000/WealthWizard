@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useEffect } from "react";
+import React, { useContext, useRef, useEffect, useState } from "react";
 import "./Main.css";
 import { assets } from "../../assets/assets";
 import { context } from "../../context/context";
@@ -14,21 +14,23 @@ const MainBot = () => {
     isSpeaking,
     speakText,
     handleStopSpeaking,
+    saveUserQuestion,
   } = useContext(context);
   const chatEndRef = useRef(null);
   const recognition = useRef(null);
+  const [isRecognizing, setIsRecognizing] = useState(false);
+  const [isMicActive, setIsMicActive] = useState(false);
 
   const handleSend = () => {
-    // .trim() removes whitespaces ->calls OnSent
     if (input.trim()) {
+      saveUserQuestion(input.trim());
       onSent(input.trim());
       stopRecognition();
     }
   };
 
   const handleInputChange = (e) => {
-    //handles change between audio and text input ->calls setInput
-    setInput(e.target.value); //mentains when audio input is provided
+    setInput(e.target.value);
   };
 
   const handleVoiceInput = () => {
@@ -42,7 +44,7 @@ const MainBot = () => {
     if (!recognition.current) {
       recognition.current = new window.webkitSpeechRecognition();
       recognition.current.continuous = true;
-      recognition.current.interimResults = true; // Capture interim results
+      recognition.current.interimResults = true;
       recognition.current.lang = "en-US";
 
       recognition.current.onresult = (event) => {
@@ -57,10 +59,8 @@ const MainBot = () => {
           }
         }
 
-        // Use finalTranscript or interimTranscript based on your application's logic
         setInput(finalTranscript.trim() || interimTranscript.trim());
 
-        // Optionally, you can automatically send the input after voice recognition
         if (finalTranscript.trim() || interimTranscript.trim()) {
           handleSend();
         }
@@ -68,21 +68,40 @@ const MainBot = () => {
 
       recognition.current.onerror = (event) => {
         console.error("Speech recognition error:", event.error);
+        setIsRecognizing(false);
+        setIsMicActive(false);
+      };
+
+      recognition.current.onend = () => {
+        setIsRecognizing(false);
+        setIsMicActive(false);
       };
     }
 
-    recognition.current.start();
+    if (!isRecognizing) {
+      recognition.current.start();
+      setIsRecognizing(true);
+      setIsMicActive(true);
+      console.log("Speech recognition started.");
+    } else {
+      console.log("Speech recognition is already running.");
+    }
 
     setTimeout(() => {
-      if (recognition.current && recognition.current.state === "recording") {
+      if (recognition.current && isRecognizing) {
         recognition.current.stop();
+        setIsRecognizing(false);
+        setIsMicActive(false);
         console.log("Speech recognition stopped due to inactivity.");
       }
     }, 3000);
   };
+
   const stopRecognition = () => {
     if (recognition.current) {
       recognition.current.stop();
+      setIsRecognizing(false);
+      setIsMicActive(false);
     }
   };
 
@@ -99,7 +118,7 @@ const MainBot = () => {
       <Header />
       <div className="main">
         <div className="nav">
-          <p className="  font-bold text-3xl">WizBot</p>
+          <p className="font-bold text-3xl">WizBot</p>
           <img src={assets.user_icon} alt="user icon" />
         </div>
 
@@ -151,7 +170,12 @@ const MainBot = () => {
               />
               <div>
                 <img src={assets.gallery_icon} alt="" />
-                <img src={assets.mic_icon} alt="" onClick={handleVoiceInput} />
+                <img
+                  src={assets.mic_icon}
+                  alt=""
+                  onClick={handleVoiceInput}
+                  className={isMicActive ? "mic-active" : ""}
+                />
                 {input && (
                   <img onClick={handleSend} src={assets.send_icon} alt="" />
                 )}

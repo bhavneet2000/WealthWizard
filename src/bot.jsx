@@ -1,18 +1,13 @@
-import React from 'react'
+import React from "react";
 
-
-import Sidebar from './components/SideBar/SideBar'
-import MainBot from './components/Main/Main'
-
+import MainBot from "./components/Main/Main";
 
 const Bot = () => {
   return (
     <>
-  
-      <MainBot/>
-      
+      <MainBot />
     </>
-  )
-}
+  );
+};
 
-export default Bot
+export default Bot;

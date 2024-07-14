@@ -27,6 +27,7 @@
     "example": "^0.0.0",
     "firebase": "^10.11.0",
     "loader-utils": "^3.2.1",
+    "lodash": "^4.17.21",
     "mdb-react-ui-kit": "^8.0.0",
     "prompt-sync": "^4.2.0",
     "react": "^18.2.0",

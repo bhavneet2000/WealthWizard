@@ -15,9 +15,9 @@ import Quiz from "./components/Quiz/quiz";
 import CaseStudy from "./components/CaseStudy/CaseStudy";
 import FinanceCalculator from "./components/FinanceCalculator/FinanceCalculator";
 import Compound from "./components/CompoundInterest/Compound";
-import CompoundReview from "./components/CompoundReview/CompoundReview";
+
 import Tracker from "./components/tracker/tracker";
-import InvestmentTime from "./components/InvestmentTime/InvestmentTime";
+
 import Seniors from "./components/Seniors/Seniors";
 import Games from "./components/Games/Games";
 import Savings from "./components/Savings/Savings";

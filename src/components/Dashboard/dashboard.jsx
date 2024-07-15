@@ -44,6 +44,7 @@ function Dashboard() {
                 <img
                   // src={coinsGif}
                   src="https://res.cloudinary.com/duu6ej0qx/image/upload/v1718276712/coin_a758dr.gif"
+                  alt="coins"
                   className="w-8 h-8 mr-3"
                 />
                 <span className="text-xl font-semibold">WizPro</span>

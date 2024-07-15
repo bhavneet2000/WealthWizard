@@ -74,14 +74,7 @@ const ModuleLink = ({ to, color, title, tagline }) => {
       bgColor = "purple-200";
       hoverBgColor = "purple-300";
       break;
-    case "green":
-      bgColor = "green-200";
-      hoverBgColor = "green-300";
-      break;
-    case "blue":
-      bgColor = "blue-200";
-      hoverBgColor = "blue-300";
-      break;
+
     default:
       bgColor = "blue-200";
       hoverBgColor = "blue-300";

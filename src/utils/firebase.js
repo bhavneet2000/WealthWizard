@@ -11,7 +11,7 @@ import { getStorage } from "firebase/storage";
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBdM_AoK9LMV3vd-2ALitLS-P3I9o5RdEs",
+  apiKey: "process.env.REACT_APP_FIREBASE_API_KEY",
   authDomain: "wealthwizard-1659d.firebaseapp.com",
   projectId: "wealthwizard-1659d",
   storageBucket: "wealthwizard-1659d.appspot.com",

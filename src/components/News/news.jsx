@@ -13,7 +13,7 @@ const News = () => {
     setError(null);
     try {
       const response = await fetch(
-        `https://newsapi.org/v2/everything?q=${searchTerm}&sortBy=publishedAt&apiKey=${NewsApiKey}`
+        `https://newsapi.org/v2/everything?q=${searchTerm}&sortBy=publishedAt&apiKey=${process.env.NEWS_API}`
       );
       if (!response.ok) {
         throw new Error(`Error fetching news: ${response.statusText}`);

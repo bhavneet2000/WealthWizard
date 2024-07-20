@@ -44,6 +44,7 @@ import Retire from "./components/Retireease/Retire.jsx";
 import Course1 from "./components/Retireease/Course1.jsx";
 import Course2 from "./components/Retireease/Course2.jsx";
 import OpeningSaving from "./components/OpeningSaving/OpeningSaving";
+import IncomeTax from "./components/IncomeTax/IncomeTax.jsx";
 
 function App() {
   return (
@@ -147,6 +148,10 @@ function App() {
           <Route
             path="/retirement"
             element={<ProtectedRoute element={Retire} />} // Add the WizPro route here
+          />
+          <Route
+            path="/income-tax"
+            element={<ProtectedRoute element={IncomeTax} />} // Add the WizPro route here
           />
 
           <Route

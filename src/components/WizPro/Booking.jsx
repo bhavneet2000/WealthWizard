@@ -9,19 +9,6 @@ const MentorshipBooking = () => {
   const [qualification, setQualification] = useState("");
   const [assistance, setAssistance] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log({
-      firstName,
-      lastName,
-      email,
-      date,
-      qualification,
-      assistance,
-    });
-  };
-
   return (
     <div>
       <FinHeader />

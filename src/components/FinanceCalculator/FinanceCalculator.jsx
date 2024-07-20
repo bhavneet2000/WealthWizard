@@ -75,6 +75,26 @@ const FinanceCalculator = () => {
               </div>
             </Link>
           </div>
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            <Link to="/income-tax">
+              <div className="h-48 w-full overflow-hidden">
+                <img
+                  src="https://cdn-scripbox-wordpress.scripbox.com/wp-content/uploads/2021/04/inflation-calculator-vector-1.png"
+                  alt="IncomeTaxcalculator"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-6">
+                <h2 className="text-xl font-semibold mb-4">
+                  Income Tax Calculator
+                </h2>
+                <p className="text-base text-gray-700">
+                  Track the effects of inflation with our handy inflation
+                  calculator.
+                </p>
+              </div>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

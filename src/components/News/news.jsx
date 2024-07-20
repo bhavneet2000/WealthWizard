@@ -1,23 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import Header from "../Header/header";
 
 const News = () => {
+  console.log(process.env.REACT_APP_NEWS_API);
   const [news, setNews] = useState([]);
   const [searchTerm, setSearchTerm] = useState("finance");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetchNews();
-  }, [searchTerm]);
-
-  const fetchNews = async () => {
+  const fetchNews = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
       const response = await fetch(
-        `https://newsapi.org/v2/everything?q=${searchTerm}&sortBy=publishedAt&apiKey=${process.env.NEWS_API}`
+        `https://newsapi.org/v2/everything?q=${searchTerm}&sortBy=publishedAt&apiKey=${process.env.REACT_APP_NEWS_API}`
       );
       if (!response.ok) {
         throw new Error(`Error fetching news: ${response.statusText}`);
@@ -29,7 +26,11 @@ const News = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [searchTerm]);
+
+  useEffect(() => {
+    fetchNews();
+  }, [fetchNews]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -66,10 +67,10 @@ const News = () => {
           <p className="text-center text-red-500">{error}</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-10">
-            {news.length <= 2 ? (
+            {news.length === 0 ? (
               <p className="text-center col-span-full">No news found.</p>
             ) : (
-              news.slice(2).map((article, index) => (
+              news.map((article, index) => (
                 <a
                   key={index}
                   href={article.url}

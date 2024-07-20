@@ -31,7 +31,7 @@ export const Question = ({ index, data }) => {
               <TiTickOutline
                 style={{
                   fontSize: "20px",
-                  color: "green"
+                  color: "green",
                 }}
               />
             ) : (

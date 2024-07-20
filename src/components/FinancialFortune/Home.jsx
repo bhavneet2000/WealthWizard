@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import "./stroopTest.css";
 import { useNavigate } from "react-router-dom";
-import Result from "./Result";
 import Header from "../Header/header";
 
 function StroopTest() {
-  const currencies = [
-    { symbol: "$", name: "USD", country: "United States" },
-    { symbol: "€", name: "EUR", country: "European Union" },
-    { symbol: "¥", name: "JPY", country: "Japan" },
-    { symbol: "₹", name: "INR", country: "India" },
-    { symbol: "£", name: "GBP", country: "United Kingdom" },
-    { symbol: "₩", name: "KRW", country: "South Korea" },
-  ];
+  const currencies = useMemo(
+    () => [
+      { symbol: "$", name: "USD", country: "United States" },
+      { symbol: "€", name: "EUR", country: "European Union" },
+      { symbol: "¥", name: "JPY", country: "Japan" },
+      { symbol: "₹", name: "INR", country: "India" },
+      { symbol: "£", name: "GBP", country: "United Kingdom" },
+      { symbol: "₩", name: "KRW", country: "South Korea" },
+    ],
+    []
+  );
 
   const [round, setRound] = useState(1);
   const [start, setStart] = useState(false);
@@ -26,22 +28,22 @@ function StroopTest() {
 
   const navigate = useNavigate();
 
+  const startRound = useCallback(() => {
+    const randomCurrencyIndex = Math.floor(Math.random() * currencies.length);
+    setCurrentCurrency(currencies[randomCurrencyIndex]);
+  }, [currencies]);
+
   useEffect(() => {
     if (start && round <= 8) {
       startRound();
     }
-  }, [round, start]);
+  }, [round, start, startRound]);
 
   const startOver = () => {
     setStart(true);
     setRound(1);
     setScore(0);
     setShowInstructions(false);
-  };
-
-  const startRound = () => {
-    const randomCurrencyIndex = Math.floor(Math.random() * currencies.length);
-    setCurrentCurrency(currencies[randomCurrencyIndex]);
   };
 
   const handleOptionClick = (country) => {
@@ -70,7 +72,7 @@ function StroopTest() {
               <li>
                 Select the correct country for the displayed currency symbol.
               </li>
-              <li>There will be 6 rounds. Try to score as high as possible.</li>
+              <li>There will be 8 rounds. Try to score as high as possible.</li>
             </ul>
             <button
               className="high"

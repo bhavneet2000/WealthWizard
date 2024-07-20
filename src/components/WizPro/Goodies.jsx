@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import FinHeader from "./FinHeader";
 
 const Goodies = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-
   const items = [
     {
       title: "Sweatshirt",
@@ -54,16 +52,6 @@ const Goodies = () => {
       gif: "https://res.cloudinary.com/duu6ej0qx/image/upload/v1718276712/coin_a758dr.gif",
     },
   ];
-
-  const nextSlide = () => {
-    const newIndex = (activeIndex + 1) % items.length;
-    setActiveIndex(newIndex);
-  };
-
-  const prevSlide = () => {
-    const newIndex = activeIndex === 0 ? items.length - 1 : activeIndex - 1;
-    setActiveIndex(newIndex);
-  };
 
   return (
     <div>

@@ -4,6 +4,7 @@ import Header from "../Header/header";
 
 const News = () => {
   console.log(process.env.REACT_APP_NEWS_API);
+  console.log("REACT_APP_FIREBASE_API_KEY", process.env.REACT_APP_FIREBASE_API_KEY);
   const [news, setNews] = useState([]);
   const [searchTerm, setSearchTerm] = useState("finance");
   const [loading, setLoading] = useState(false);

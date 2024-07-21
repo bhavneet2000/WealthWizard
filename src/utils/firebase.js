@@ -11,7 +11,7 @@ import { getStorage } from "firebase/storage";
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "wealthwizard-1659d.firebaseapp.com",
   projectId: "wealthwizard-1659d",
   storageBucket: "wealthwizard-1659d.appspot.com",
@@ -19,6 +19,8 @@ const firebaseConfig = {
   appId: "1:879049330198:web:cc44f1335dd27b18e7ef37",
   measurementId: "G-QX04CF6TFK",
 };
+console.log("bhavFB", firebaseConfig);
+console.log("bhavFB2", process.env);
 
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);

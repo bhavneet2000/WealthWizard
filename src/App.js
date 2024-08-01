@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import React from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -25,7 +25,7 @@ import ImpSavings from "./components/ImpSavings/ImpSavings";
 import Master from "./components/MasterSaving/Master";
 import Bot from "./bot";
 import ContextProvider from "./context/context";
-import { AuthProvider } from "./AuthContext";
+import { AuthProvider, useAuth } from "./AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
 import PennyPlanner from "./components/PennyPlanner/PennyPlanner";
 import InflationCalculator from "./components/InflationCalculator/InflationCalculator";
@@ -47,12 +47,13 @@ import OpeningSaving from "./components/OpeningSaving/OpeningSaving";
 import IncomeTax from "./components/IncomeTax/IncomeTax.jsx";
 
 function App() {
+  var isAuthenticated = localStorage.getItem("isAuthenticated");
   return (
     <AuthProvider>
       <Router>
         <Routes>
           <Route path="/" element={<Welcome />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login />} />
           <Route path="/signup" element={<Register />} />
           <Route
             path="/dashboard"

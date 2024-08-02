@@ -1,13 +1,11 @@
 import React from "react";
-
 import MainBot from "./components/Main/Main";
+import ContextProvider from "./context/context";
 
-const Bot = () => {
-  return (
-    <>
-      <MainBot />
-    </>
-  );
-};
+const Bot = () => (
+  <ContextProvider>
+    <MainBot />
+  </ContextProvider>
+);
 
 export default Bot;

@@ -4,24 +4,27 @@ import Header from "../Header/header";
 const Summary = ({ prevStep, formData }) => {
   const calculateNewRegimeTax = (taxableIncome) => {
     let tax = 0;
-    if (taxableIncome <= 250000) return 0;
-    else if (taxableIncome <= 500000) return (taxableIncome - 250000) * 0.05;
-    else if (taxableIncome <= 750000)
-      return 12500 + (taxableIncome - 500000) * 0.1;
+
+    if (taxableIncome <= 300000) return 0;
+    else if (taxableIncome <= 700000) return (taxableIncome - 300000) * 0.05;
     else if (taxableIncome <= 1000000)
-      return 37500 + (taxableIncome - 750000) * 0.15;
-    else if (taxableIncome <= 1250000)
-      return 75000 + (taxableIncome - 1000000) * 0.2;
-    else return 125000 + (taxableIncome - 1250000) * 0.25;
+      return 20000 + (taxableIncome - 700000) * 0.1;
+    else if (taxableIncome <= 1200000)
+      return 50000 + (taxableIncome - 1000000) * 0.15;
+    else if (taxableIncome <= 1500000)
+      return 80000 + (taxableIncome - 1200000) * 0.2;
+    else return 140000 + (taxableIncome - 1500000) * 0.3;
   };
 
-  const calculateOldRegimeTax = (taxableIncome) => {
+  const calculateOldRegimeTax = (taxableIncome, deductions) => {
     let tax = 0;
-    if (taxableIncome <= 250000) return 0;
-    else if (taxableIncome <= 500000) return (taxableIncome - 250000) * 0.05;
-    else if (taxableIncome <= 1000000)
-      return 12500 + (taxableIncome - 500000) * 0.2;
-    else return 112500 + (taxableIncome - 1000000) * 0.3;
+    const taxableIncomeAfterDeductions = taxableIncome - deductions;
+    if (taxableIncomeAfterDeductions <= 250000) return 0;
+    else if (taxableIncomeAfterDeductions <= 500000)
+      return (taxableIncomeAfterDeductions - 250000) * 0.05;
+    else if (taxableIncomeAfterDeductions <= 1000000)
+      return 12500 + (taxableIncomeAfterDeductions - 500000) * 0.2;
+    else return 112500 + (taxableIncomeAfterDeductions - 1000000) * 0.3;
   };
 
   const calculateTaxableIncome = () => {
@@ -37,8 +40,12 @@ const Summary = ({ prevStep, formData }) => {
   };
 
   const taxableIncome = calculateTaxableIncome();
+  const totalDeductions = Object.values(formData.deductions).reduce(
+    (acc, curr) => acc + Number(curr),
+    0
+  );
   const taxNewRegime = calculateNewRegimeTax(taxableIncome);
-  const taxOldRegime = calculateOldRegimeTax(taxableIncome);
+  const taxOldRegime = calculateOldRegimeTax(taxableIncome, totalDeductions);
 
   const recommendation =
     taxOldRegime > taxNewRegime

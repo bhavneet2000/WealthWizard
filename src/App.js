@@ -43,6 +43,7 @@ import Course1 from "./components/Retireease/Course1.jsx";
 import Course2 from "./components/Retireease/Course2.jsx";
 import OpeningSaving from "./components/OpeningSaving/OpeningSaving";
 import IncomeTax from "./components/IncomeTax/IncomeTax.jsx";
+import SavingsCalculator from "./components/SavingsCalculator/SavingsCalculator.jsx";
 
 function AppRoutes() {
   const { isAuthenticated } = useAuth();
@@ -115,7 +116,183 @@ function App() {
   return (
     <AuthProvider>
       <Router>
+<<<<<<< Updated upstream
         <AppRoutes />
+=======
+        <Routes>
+          <Route path="/" element={<Welcome />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Register />} />
+          <Route
+            path="/dashboard"
+            element={<ProtectedRoute element={NewDashboard} />}
+          />
+          <Route
+            path="/planning"
+            element={<ProtectedRoute element={Dashboard} />}
+          />
+          <Route
+            path="/profile"
+            element={<ProtectedRoute element={Profile} />}
+          />
+          <Route
+            path="/juniors"
+            element={<ProtectedRoute element={Juniors} />}
+          />
+          <Route
+            path="/seniors"
+            element={<ProtectedRoute element={Seniors} />}
+          />
+          <Route
+            path="/course1"
+            element={<ProtectedRoute element={Course1} />}
+          />
+          <Route
+            path="/course2"
+            element={<ProtectedRoute element={Course2} />}
+          />
+
+          <Route
+            path="/budgeting"
+            element={<ProtectedRoute element={Budget} />}
+          />
+          <Route path="/quiz" element={<ProtectedRoute element={Quiz} />} />
+          <Route
+            path="/quiz/saving"
+            element={<ProtectedRoute element={CaseStudy} />}
+          />
+          <Route
+            path="/quiz/retirement"
+            element={<ProtectedRoute element={CaseStudy} />}
+          />
+          <Route
+            path="/calculate"
+            element={<ProtectedRoute element={FinanceCalculator} />}
+          />
+          <Route
+            path="/booking"
+            element={<ProtectedRoute element={Booking} />}
+          />
+          <Route
+            path="/compound-interest"
+            element={<ProtectedRoute element={Compound} />}
+          />
+          <Route
+            path="/tracker"
+            element={<ProtectedRoute element={Tracker} />}
+          />
+          <Route path="/financialhome" element={<FinancialFortune />} />
+          <Route path="/result" element={<Financialresult />} />
+          <Route
+            path="/retirement-calculator"
+            element={<ProtectedRoute element={Retirement} />}
+          />
+          <Route path="/games" element={<ProtectedRoute element={Games} />} />
+          <Route
+            path="/savings"
+            element={<ProtectedRoute element={Savings} />}
+          />
+          <Route
+            path="/power-of-saving"
+            element={<ProtectedRoute element={ImpSavings} />}
+          />
+          <Route
+            path="/inflation"
+            element={<ProtectedRoute element={InflationCalculator} />}
+          />
+          <Route
+            path="/open-saving"
+            element={<ProtectedRoute element={OpeningSaving} />}
+          />
+          <Route
+            path="/master-saving"
+            element={<ProtectedRoute element={Master} />}
+          />
+          <Route path="/news" element={<ProtectedRoute element={News} />} />
+          <Route path="/forum" element={<ProtectedRoute element={Forum} />} />
+          <Route
+            path="/WizPro"
+            element={<ProtectedRoute element={WizPro} />} // Add the WizPro route here
+          />
+          <Route
+            path="/retirement"
+            element={<ProtectedRoute element={Retire} />} // Add the WizPro route here
+          />
+          <Route
+            path="/income-tax"
+            element={<ProtectedRoute element={IncomeTax} />} // Add the WizPro route here
+          />
+
+          <Route
+            path="/livementoring"
+            element={<ProtectedRoute element={LiveMentoring} />}
+          />
+          <Route
+            path="/premiumcourses"
+            element={<ProtectedRoute element={Premiumcourses} />}
+          />
+          <Route
+            path="/goodies"
+            element={<ProtectedRoute element={Goodies} />}
+          />
+          <Route
+            path="/introduction-to-saving"
+            element={<ProtectedRoute element={IntroSaving} />}
+          />
+          <Route
+            path="/savings-calculator"
+            element={<ProtectedRoute element={SavingsCalculator} />}
+          />
+          <Route
+            path="/bot"
+            element={
+              <ProtectedRoute
+                element={() => (
+                  <ContextProvider>
+                    <Bot />
+                  </ContextProvider>
+                )}
+              />
+            }
+          />
+          <Route
+            path="/play-hangman"
+            element={
+              <ProtectedRoute
+                element={() => (
+                  <ContextProvider>
+                    <Hungman />
+                  </ContextProvider>
+                )}
+              />
+            }
+          />
+          <Route
+            path="/play-stroop"
+            element={
+              <ProtectedRoute
+                element={() => (
+                  <ContextProvider>
+                    <FinancialFortune />
+                  </ContextProvider>
+                )}
+              />
+            }
+          />
+          <Route
+            path="/play-penny"
+            element={
+              <ProtectedRoute
+                element={() => (
+                  <ContextProvider>
+                    <PennyPlanner />
+                  </ContextProvider>
+                )}
+              />
+            }
+          />
+        </Routes>
+>>>>>>> Stashed changes
         <ToastContainer />
       </Router>
     </AuthProvider>

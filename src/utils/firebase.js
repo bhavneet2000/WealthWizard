@@ -19,8 +19,6 @@ const firebaseConfig = {
   appId: "1:879049330198:web:cc44f1335dd27b18e7ef37",
   measurementId: "G-QX04CF6TFK",
 };
-console.log("bhavFB", firebaseConfig);
-console.log("bhavFB2", process.env);
 
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);

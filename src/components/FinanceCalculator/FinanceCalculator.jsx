@@ -11,23 +11,22 @@ const FinanceCalculator = () => {
           Finance Calculator: Your Gateway to Smarter Financial Decisions!
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Compound Interest Calculator */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <Link to="/compound-interest">
+            <Link to="/income-tax">
               <div className="h-48 w-full overflow-hidden">
                 <img
-                  src="https://blog.taxact.com/wp-content/uploads/TaxCalculators_and_TaxTools_Blog.jpeg"
-                  alt="Compound Interest Calculator"
+                  src="https://media.licdn.com/dms/image/D4D12AQGZpl4J5OwnyQ/article-cover_image-shrink_600_2000/0/1667126044636?e=2147483647&v=beta&t=p8j0bhyPO94xpJvBep79UoLKWy4kSHIkOZbBSPAqof4"
+                  alt="IncomeTaxcalculator"
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="p-6">
                 <h2 className="text-xl font-semibold mb-4">
-                  Compound Interest Calculator
+                  Income Tax Calculator
                 </h2>
                 <p className="text-base text-gray-700">
-                  Calculate compound interest and see how your investments grow
-                  over time.
+                  Quickly estimate your tax obligations and plan your finances
+                  with ease!
                 </p>
               </div>
             </Link>
@@ -75,22 +74,24 @@ const FinanceCalculator = () => {
               </div>
             </Link>
           </div>
+          {/* Compound Interest Calculator */}
+
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <Link to="/income-tax">
+            <Link to="/compound-interest">
               <div className="h-48 w-full overflow-hidden">
                 <img
-                  src="https://cdn-scripbox-wordpress.scripbox.com/wp-content/uploads/2021/04/inflation-calculator-vector-1.png"
-                  alt="IncomeTaxcalculator"
+                  src="https://blog.taxact.com/wp-content/uploads/TaxCalculators_and_TaxTools_Blog.jpeg"
+                  alt="Compound Interest Calculator"
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="p-6">
                 <h2 className="text-xl font-semibold mb-4">
-                  Income Tax Calculator
+                  Compound Interest Calculator
                 </h2>
                 <p className="text-base text-gray-700">
-                  Track the effects of inflation with our handy inflation
-                  calculator.
+                  Calculate compound interest and see how your investments grow
+                  over time.
                 </p>
               </div>
             </Link>

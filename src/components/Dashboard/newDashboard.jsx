@@ -11,6 +11,8 @@ import {
   faSignOutAlt,
   faCalculator,
   faMoneyBillAlt,
+  faChartLine,
+  faWallet,
 } from "@fortawesome/free-solid-svg-icons";
 
 function NewDashboard() {
@@ -56,6 +58,7 @@ function Sidebar({ logout }) {
             icon={<FontAwesomeIcon icon={faHome} />}
             text="Home"
           />
+
           <SidebarLink
             to="/forum"
             icon={<FontAwesomeIcon icon={faUsers} />}
@@ -67,18 +70,24 @@ function Sidebar({ logout }) {
             text="WizBot"
           />
           <SidebarLink
-            to="/calculate"
-            icon={<FontAwesomeIcon icon={faCalculator} />}
-            text="Financial Calculator"
+            to="/savings-calculator"
+            icon={<FontAwesomeIcon icon={faChartLine} />}
+            text="GoldenFuture Calculator "
           />
+
           <SidebarLink
             to="/news"
             icon={<FontAwesomeIcon icon={faNewspaper} />}
             text="News"
           />
           <SidebarLink
+            to="/calculate"
+            icon={<FontAwesomeIcon icon={faCalculator} />}
+            text="Financial Calculator"
+          />
+          <SidebarLink
             to="/tracker"
-            icon={<FontAwesomeIcon icon={faNewspaper} />}
+            icon={<FontAwesomeIcon icon={faWallet} />}
             text="Budget Tracker"
           />
           <li>

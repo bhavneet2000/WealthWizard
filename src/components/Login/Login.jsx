@@ -24,6 +24,7 @@ function Login() {
         const user = userCredential.user;
         console.log("User signed in:", user);
         // Trigger success notification
+        localStorage.setItem("isAuthenticated", JSON.stringify(true));
         toast.success("Login successful!");
         // Update auth context
         login();

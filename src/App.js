@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import React from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,9 +15,7 @@ import Quiz from "./components/Quiz/quiz";
 import CaseStudy from "./components/CaseStudy/CaseStudy";
 import FinanceCalculator from "./components/FinanceCalculator/FinanceCalculator";
 import Compound from "./components/CompoundInterest/Compound";
-
 import Tracker from "./components/tracker/tracker";
-
 import Seniors from "./components/Seniors/Seniors";
 import Games from "./components/Games/Games";
 import Savings from "./components/Savings/Savings";
@@ -25,7 +23,7 @@ import ImpSavings from "./components/ImpSavings/ImpSavings";
 import Master from "./components/MasterSaving/Master";
 import Bot from "./bot";
 import ContextProvider from "./context/context";
-import { AuthProvider } from "./AuthContext";
+import { AuthProvider, useAuth } from "./AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
 import PennyPlanner from "./components/PennyPlanner/PennyPlanner";
 import InflationCalculator from "./components/InflationCalculator/InflationCalculator";
@@ -46,179 +44,78 @@ import Course2 from "./components/Retireease/Course2.jsx";
 import OpeningSaving from "./components/OpeningSaving/OpeningSaving";
 import IncomeTax from "./components/IncomeTax/IncomeTax.jsx";
 
+function AppRoutes() {
+  const { isAuthenticated } = useAuth();
+
+  return (
+    <Routes>
+      <Route path="/" element={<Welcome />} />
+      <Route path="/login" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login />} />
+      <Route path="/signup" element={<Register />} />
+      <Route path="/dashboard" element={<ProtectedRoute element={NewDashboard} />} />
+      <Route path="/planning" element={<ProtectedRoute element={Dashboard} />} />
+      <Route path="/profile" element={<ProtectedRoute element={Profile} />} />
+      <Route path="/juniors" element={<ProtectedRoute element={Juniors} />} />
+      <Route path="/seniors" element={<ProtectedRoute element={Seniors} />} />
+      <Route path="/course1" element={<ProtectedRoute element={Course1} />} />
+      <Route path="/course2" element={<ProtectedRoute element={Course2} />} />
+      <Route path="/budgeting" element={<ProtectedRoute element={Budget} />} />
+      <Route path="/quiz" element={<ProtectedRoute element={Quiz} />} />
+      <Route path="/quiz/saving" element={<ProtectedRoute element={CaseStudy} />} />
+      <Route path="/quiz/retirement" element={<ProtectedRoute element={CaseStudy} />} />
+      <Route path="/calculate" element={<ProtectedRoute element={FinanceCalculator} />} />
+      <Route path="/booking" element={<ProtectedRoute element={Booking} />} />
+      <Route path="/compound-interest" element={<ProtectedRoute element={Compound} />} />
+      <Route path="/tracker" element={<ProtectedRoute element={Tracker} />} />
+      <Route path="/financialhome" element={<FinancialFortune />} />
+      <Route path="/result" element={<Financialresult />} />
+      <Route path="/retirement-calculator" element={<ProtectedRoute element={Retirement} />} />
+      <Route path="/games" element={<ProtectedRoute element={Games} />} />
+      <Route path="/savings" element={<ProtectedRoute element={Savings} />} />
+      <Route path="/power-of-saving" element={<ProtectedRoute element={ImpSavings} />} />
+      <Route path="/inflation" element={<ProtectedRoute element={InflationCalculator} />} />
+      <Route path="/open-saving" element={<ProtectedRoute element={OpeningSaving} />} />
+      <Route path="/master-saving" element={<ProtectedRoute element={Master} />} />
+      <Route path="/news" element={<ProtectedRoute element={News} />} />
+      <Route path="/forum" element={<ProtectedRoute element={Forum} />} />
+      <Route path="/WizPro" element={<ProtectedRoute element={WizPro} />} />
+      <Route path="/retirement" element={<ProtectedRoute element={Retire} />} />
+      <Route path="/income-tax" element={<ProtectedRoute element={IncomeTax} />} />
+      <Route path="/livementoring" element={<ProtectedRoute element={LiveMentoring} />} />
+      <Route path="/premiumcourses" element={<ProtectedRoute element={Premiumcourses} />} />
+      <Route path="/goodies" element={<ProtectedRoute element={Goodies} />} />
+      <Route path="/introduction-to-saving" element={<ProtectedRoute element={IntroSaving} />} />
+      <Route path="/bot" element={<ProtectedRoute element={Bot} />} />
+      <Route path="/play-hangman" element={
+        <ProtectedRoute element={
+          <ContextProvider>
+            <Hungman />
+          </ContextProvider>
+        } />
+      } />
+      <Route path="/play-stroop" element={
+        <ProtectedRoute element={
+          <ContextProvider>
+            <FinancialFortune />
+          </ContextProvider>
+        } />
+      } />
+      <Route path="/play-penny" element={
+        <ProtectedRoute element={
+          <ContextProvider>
+            <PennyPlanner />
+          </ContextProvider>
+        } />
+      } />
+    </Routes>
+  );
+}
+
 function App() {
   return (
     <AuthProvider>
       <Router>
-        <Routes>
-          <Route path="/" element={<Welcome />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Register />} />
-          <Route
-            path="/dashboard"
-            element={<ProtectedRoute element={NewDashboard} />}
-          />
-          <Route
-            path="/planning"
-            element={<ProtectedRoute element={Dashboard} />}
-          />
-          <Route
-            path="/profile"
-            element={<ProtectedRoute element={Profile} />}
-          />
-          <Route
-            path="/juniors"
-            element={<ProtectedRoute element={Juniors} />}
-          />
-          <Route
-            path="/seniors"
-            element={<ProtectedRoute element={Seniors} />}
-          />
-          <Route
-            path="/course1"
-            element={<ProtectedRoute element={Course1} />}
-          />
-          <Route
-            path="/course2"
-            element={<ProtectedRoute element={Course2} />}
-          />
-
-          <Route
-            path="/budgeting"
-            element={<ProtectedRoute element={Budget} />}
-          />
-          <Route path="/quiz" element={<ProtectedRoute element={Quiz} />} />
-          <Route
-            path="/quiz/saving"
-            element={<ProtectedRoute element={CaseStudy} />}
-          />
-          <Route
-            path="/quiz/retirement"
-            element={<ProtectedRoute element={CaseStudy} />}
-          />
-          <Route
-            path="/calculate"
-            element={<ProtectedRoute element={FinanceCalculator} />}
-          />
-          <Route
-            path="/booking"
-            element={<ProtectedRoute element={Booking} />}
-          />
-          <Route
-            path="/compound-interest"
-            element={<ProtectedRoute element={Compound} />}
-          />
-          <Route
-            path="/tracker"
-            element={<ProtectedRoute element={Tracker} />}
-          />
-          <Route path="/financialhome" element={<FinancialFortune />} />
-          <Route path="/result" element={<Financialresult />} />
-          <Route
-            path="/retirement-calculator"
-            element={<ProtectedRoute element={Retirement} />}
-          />
-          <Route path="/games" element={<ProtectedRoute element={Games} />} />
-          <Route
-            path="/savings"
-            element={<ProtectedRoute element={Savings} />}
-          />
-          <Route
-            path="/power-of-saving"
-            element={<ProtectedRoute element={ImpSavings} />}
-          />
-          <Route
-            path="/inflation"
-            element={<ProtectedRoute element={InflationCalculator} />}
-          />
-          <Route
-            path="/open-saving"
-            element={<ProtectedRoute element={OpeningSaving} />}
-          />
-          <Route
-            path="/master-saving"
-            element={<ProtectedRoute element={Master} />}
-          />
-          <Route path="/news" element={<ProtectedRoute element={News} />} />
-          <Route path="/forum" element={<ProtectedRoute element={Forum} />} />
-          <Route
-            path="/WizPro"
-            element={<ProtectedRoute element={WizPro} />} // Add the WizPro route here
-          />
-          <Route
-            path="/retirement"
-            element={<ProtectedRoute element={Retire} />} // Add the WizPro route here
-          />
-          <Route
-            path="/income-tax"
-            element={<ProtectedRoute element={IncomeTax} />} // Add the WizPro route here
-          />
-
-          <Route
-            path="/livementoring"
-            element={<ProtectedRoute element={LiveMentoring} />}
-          />
-          <Route
-            path="/premiumcourses"
-            element={<ProtectedRoute element={Premiumcourses} />}
-          />
-          <Route
-            path="/goodies"
-            element={<ProtectedRoute element={Goodies} />}
-          />
-          <Route
-            path="/introduction-to-saving"
-            element={<ProtectedRoute element={IntroSaving} />}
-          />
-          <Route
-            path="/bot"
-            element={
-              <ProtectedRoute
-                element={() => (
-                  <ContextProvider>
-                    <Bot />
-                  </ContextProvider>
-                )}
-              />
-            }
-          />
-          <Route
-            path="/play-hangman"
-            element={
-              <ProtectedRoute
-                element={() => (
-                  <ContextProvider>
-                    <Hungman />
-                  </ContextProvider>
-                )}
-              />
-            }
-          />
-          <Route
-            path="/play-stroop"
-            element={
-              <ProtectedRoute
-                element={() => (
-                  <ContextProvider>
-                    <FinancialFortune />
-                  </ContextProvider>
-                )}
-              />
-            }
-          />
-          <Route
-            path="/play-penny"
-            element={
-              <ProtectedRoute
-                element={() => (
-                  <ContextProvider>
-                    <PennyPlanner />
-                  </ContextProvider>
-                )}
-              />
-            }
-          />
-        </Routes>
+        <AppRoutes />
         <ToastContainer />
       </Router>
     </AuthProvider>

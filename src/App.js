@@ -141,6 +141,10 @@ function AppRoutes() {
       />
       <Route path="/bot" element={<ProtectedRoute element={Bot} />} />
       <Route
+        path="/savings-calculator"
+        element={<ProtectedRoute element={SavingsCalculator} />}
+      />
+      <Route
         path="/play-hangman"
         element={
           <ProtectedRoute
